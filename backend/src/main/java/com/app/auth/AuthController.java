@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
-        String token = "Test"; //todo generate jwt 
+        String token = "Test"; //todo generate jwt
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
