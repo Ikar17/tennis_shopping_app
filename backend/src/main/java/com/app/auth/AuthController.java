@@ -22,6 +22,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
@@ -36,7 +37,7 @@ public class AuthController {
             return new ResponseEntity<>("User doesn't found", HttpStatus.FORBIDDEN);
         }
 
-        String token = "Test"; //todo generate jwt
+        String token = jwtService.createToken(authObject);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
