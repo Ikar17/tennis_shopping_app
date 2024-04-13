@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.app.utils.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +28,12 @@ public class User implements UserDetails {
     private String password;
     @Column(unique = true)
     private String email;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("USER"));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

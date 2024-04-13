@@ -2,6 +2,7 @@ package com.app.auth;
 
 import com.app.model.User;
 import com.app.repository.UserRepository;
+import com.app.utils.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,7 @@ public class AuthController {
                 .lastname(signUpDto.getLastName())
                 .email(signUpDto.getEmail())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user);
