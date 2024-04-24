@@ -44,6 +44,12 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/last/{limit}")
+    public ResponseEntity<List<Product>> getLastAddedProducts(@PathVariable Integer limit){
+        List<Product> products = productRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, limit));
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<Page<Product>> getAllProductsByCategory(@RequestParam String category,
                                                   @RequestParam(defaultValue = "0") int page,

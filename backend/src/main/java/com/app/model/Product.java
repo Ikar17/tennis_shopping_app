@@ -2,6 +2,7 @@ package com.app.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -21,5 +22,16 @@ public class Product {
     private Boolean available;
     @Lob
     private byte[] image;
+    private Date createdAt;
+    private Date updateAt;
 
+    @PrePersist
+    public void create(){
+        createdAt = new Date();
+        updateAt = createdAt;
+    }
+    @PreUpdate
+    public void update(){
+        updateAt = new Date();
+    }
 }
