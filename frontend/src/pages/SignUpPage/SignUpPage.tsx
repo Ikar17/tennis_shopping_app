@@ -1,7 +1,7 @@
 import { Box, Button, Container, Link, TextField, Typography } from "@mui/material"
 import React from "react"
 
-export default function SignInPage(){
+export default function SignUpPage(){
 
     const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -27,9 +27,28 @@ export default function SignInPage(){
                 }}
             >
                 <Typography component="h1" variant="h4">
-                    Logowanie
+                    Utwórz konto
                 </Typography>
                 <Box component="form" onSubmit={ handleSubmit }>
+                    <TextField
+                        required
+                        fullWidth
+                        id="firstName"
+                        label="Imię"
+                        name="firstName"
+                        autoComplete="given-name"
+                        autoFocus
+                        margin="normal"
+                    />
+                    <TextField
+                        required
+                        fullWidth
+                        id="lastName"
+                        label="Nazwisko"
+                        name="lastName"
+                        autoComplete="family-name"
+                        margin="normal"
+                    />
                     <TextField
                         margin="normal"
                         required
@@ -38,7 +57,6 @@ export default function SignInPage(){
                         label="Adres email"
                         name="email"
                         autoComplete="email"
-                        autoFocus
                     />
                     <TextField
                         margin="normal"
@@ -55,11 +73,11 @@ export default function SignInPage(){
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Zaloguj się
+                        Zarejestruj się
                     </Button>
                 </Box>
-                <Link href="/register" variant="body2">
-                    Nie masz konta? Zarejestruj się
+                <Link href="/login" variant="body2">
+                    Masz konto? Zaloguj się
                 </Link>
             </Box>
         </Container>  
