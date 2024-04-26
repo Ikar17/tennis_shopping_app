@@ -9,7 +9,7 @@ export default function Layout(){
         <Box 
             sx={{
                 bgcolor: '#dad7cd',
-                height: "100vh",
+                minHeight: "100vh",
             }}
         >
             <Navbar />

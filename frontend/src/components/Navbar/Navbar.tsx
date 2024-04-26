@@ -4,6 +4,7 @@ import NavigationMobile from './NavbarMobile';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import PersonIcon from '@mui/icons-material/Person';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import Link from '@mui/material/Link';
 
 export default function Navbar(){
 
@@ -28,12 +29,14 @@ export default function Navbar(){
                     }}
                 >
                     <Box sx={{ display: "flex", gap: 5}}>
-                        <Box sx={{ display: "flex", gap: 1, alignItems: "center"}}>
-                            <SportsTennisIcon />
-                            <h3>
-                                Sklep tenisowy
-                            </h3>
-                        </Box>
+                        <Link href="/">
+                            <Box sx={{ display: "flex", gap: 1, alignItems: "center", color: "white"}}>
+                                <SportsTennisIcon />
+                                <h3>
+                                    Sklep tenisowy
+                                </h3>
+                            </Box>
+                        </Link>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                             <MenuItem>
                                 Rakiety
@@ -60,16 +63,18 @@ export default function Navbar(){
                             <ShoppingBasketIcon />
                             Koszyk
                         </Button>
-                        <Button
-                            color="info"
-                            variant="contained"
-                            sx={{
-                                gap: 1
-                            }}
-                        >
-                            <PersonIcon />
-                            Konto
-                        </Button>
+                        <Link href="/login">
+                            <Button
+                                color="info"
+                                variant="contained"
+                                sx={{
+                                    gap: 1
+                                }}
+                            >
+                                <PersonIcon />
+                                Konto
+                            </Button>
+                        </Link>
                     </Box>
 
                     {/*mobile version*/}

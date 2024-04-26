@@ -1,4 +1,4 @@
-import { Box, MenuItem, Button, Divider } from '@mui/material';
+import { Box, MenuItem, Button, Divider, Link } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -65,16 +65,18 @@ export default function NavbarMobile(){
                         </Button>
                     </MenuItem>
                     <MenuItem>
-                        <Button
-                            color="info"
-                            variant="contained"
-                            sx={{
-                                gap: 1
-                            }}
-                        >
-                            <PersonIcon />
-                            Konto
-                        </Button>
+                        <Link href="/login">
+                            <Button
+                                color="info"
+                                variant="contained"
+                                sx={{
+                                    gap: 1
+                                }}
+                            >
+                                <PersonIcon />
+                                Konto
+                            </Button>
+                        </Link>
                   </MenuItem>
                 </Box>
             </Drawer>
