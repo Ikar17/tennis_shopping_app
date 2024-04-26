@@ -1,10 +1,22 @@
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 
 export default function Footer(){
     return(
-        <Container maxWidth="lg">
-            Footer
+        <Container 
+            maxWidth="lg"
+            sx = {{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "14vh",
+                gap: "2px"
+            }}
+        >
+            <Typography variant="body2" color="text.secondary" align="center">
+                {'Copyright © Sklep tenisowy '}
+                {new Date().getFullYear()}
+            </Typography>
         </Container>
     )
 }
