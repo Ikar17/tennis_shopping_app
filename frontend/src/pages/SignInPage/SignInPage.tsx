@@ -1,16 +1,23 @@
-import { Box, Button, Container, Link, TextField, Typography } from "@mui/material"
-import React from "react"
+import { Alert, Box, Button, Container, Link, Snackbar, TextField, Typography } from "@mui/material"
+import React, { useState } from "react"
+import signin from "../../api/signin";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInPage(){
 
-    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+    const [snackbarStatus, changeSnackbarStatus] = useState(false);
+    const navigate = useNavigate();
+
+    const closeSnackbar = () => {
+        changeSnackbarStatus(false);
+    }
+
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        //to do send request to backend
+        const status = await signin(data);
+        if(status >= 400) changeSnackbarStatus(true);
+        else if(status >= 200) navigate("/"); // to do redirect to account page
     }
 
     return(
@@ -48,6 +55,7 @@ export default function SignInPage(){
                         label="Hasło"
                         name="password"
                         autoComplete="password"
+                        type="password"
                     />
                     <Button
                         type="submit"
@@ -62,6 +70,20 @@ export default function SignInPage(){
                     Nie masz konta? Zarejestruj się
                 </Link>
             </Box>
+            <Snackbar
+                open={ snackbarStatus }
+                autoHideDuration={ 6000 }
+                onClose={ closeSnackbar }
+            >
+                <Alert
+                    onClose={ closeSnackbar }
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Niepoprawny email lub hasło
+                </Alert>
+            </Snackbar>
         </Container>  
     )
 }
