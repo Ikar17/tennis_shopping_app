@@ -1,9 +1,10 @@
-import { Box, MenuItem, Button, Divider, Link } from '@mui/material';
+import { Box, MenuItem, Button, Divider, Link, FormControl, InputBase } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavbarMobile(){
 
@@ -11,6 +12,15 @@ export default function NavbarMobile(){
     const toggleMenu = (newOpen : boolean) => () => {
         setOpen(newOpen);
     };
+
+    const navigate = useNavigate();
+
+    const goToProductsPage = (event: any) => {
+        const searchValue = event.target.elements.search.value;
+
+        toggleMenu(false);
+        navigate(`/products/search/${searchValue}`);
+    }
 
     return(
         <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
@@ -38,20 +48,39 @@ export default function NavbarMobile(){
                 > 
 
                     <MenuItem>
-                        Rakiety
+                        <Link href="/products/rakiety" color="inherit" underline="none">
+                            Rakiety
+                        </Link>
                     </MenuItem>
                     <MenuItem>
-                        Ubrania
+                        <Link href="/products/ubrania" color="inherit" underline="none">
+                            Ubrania
+                        </Link>
                     </MenuItem>
                     <MenuItem>
-                        Buty
+                        <Link href="/products/buty" color="inherit" underline="none">
+                             Buty
+                        </Link>
                     </MenuItem>
                     <MenuItem>
-                        Inne
+                        <Link href="/products/inne" color="inherit" underline="none">
+                            Inne
+                        </Link>
                     </MenuItem>
 
                     <Divider />
 
+                    <MenuItem>
+                        <form onSubmit={ event => goToProductsPage(event) }>
+                            <FormControl>
+                                <InputBase 
+                                    placeholder="Szukaj..." 
+                                    sx={{ ml: 1, flex: 1, color: "black"}}
+                                    name="search"
+                                    />
+                            </FormControl>
+                        </form>
+                    </MenuItem>
                     <MenuItem>
                         <Button
                             color="info"

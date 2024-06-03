@@ -4,3 +4,8 @@ export enum Role {
     ADMIN,
     GUEST
 }
+
+export interface Product {
+    name: string,
+    price: number
+}

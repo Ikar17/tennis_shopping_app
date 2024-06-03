@@ -1,12 +1,20 @@
-import { Container, Toolbar, Box, MenuItem, Button } from '@mui/material';
+import { Container, Toolbar, Box, MenuItem, Button, FormControl, OutlinedInput, InputBase } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import NavigationMobile from './NavbarMobile';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import PersonIcon from '@mui/icons-material/Person';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(){
+
+    const navigate = useNavigate();
+
+    const goToProductsPage = (event: any) => {
+        const searchValue = event.target.elements.search.value;
+        navigate(`/products/search/${searchValue}`);
+    }
 
     return(
         <AppBar 
@@ -39,30 +47,52 @@ export default function Navbar(){
                         </Link>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                             <MenuItem>
-                                Rakiety
+                                <Link href="/products/rakiety" color="inherit" underline="none">
+                                    Rakiety
+                                </Link>
                             </MenuItem>
                             <MenuItem>
-                                Ubrania
+                                <Link href="/products/ubrania" color="inherit" underline="none">
+                                    Ubrania
+                                </Link>
                             </MenuItem>
                             <MenuItem>
-                                Buty
+                                <Link href="/products/buty" color="inherit" underline="none">
+                                    Buty
+                                </Link>
                             </MenuItem>
                             <MenuItem>
-                                Inne
+                                <Link href="/products/inne" color="inherit" underline="none">
+                                    Inne
+                                </Link>
                             </MenuItem>
                         </Box>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-                        <Button
-                            color="info"
-                            variant="contained"
-                            sx={{
-                                gap: 1
-                            }}
-                        >
-                            <ShoppingBasketIcon />
-                            Koszyk
-                        </Button>
+
+                        <form onSubmit={ event => goToProductsPage(event) }>
+                            <FormControl>
+                                <InputBase 
+                                    placeholder="Szukaj..." 
+                                    sx={{ ml: 1, flex: 1, color: "white"}}
+                                    name="search"
+                                    />
+                            </FormControl>
+                        </form>
+
+                        <Link>
+                            <Button
+                                color="info"
+                                variant="contained"
+                                sx={{
+                                    gap: 1
+                                }}
+                            >
+                                <ShoppingBasketIcon />
+                                Koszyk
+                            </Button>
+                        </Link>
+
                         <Link href="/login">
                             <Button
                                 color="info"
