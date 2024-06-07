@@ -26,12 +26,7 @@ export default function ProductsPage(){
             return;
         };
 
-        console.log("Res: ");
-        console.log(response);
-
         setProducts(response.content);
-        console.log("Con: ");
-        console.log(response.content);
     }
 
     return(
@@ -50,6 +45,7 @@ export default function ProductsPage(){
                                 <CardMedia
                                     sx={{ height: 200 }}
                                     title={ product.name }
+                                    image= { product.image }
                                 >
                                     <Button />
                                 </CardMedia>
@@ -58,7 +54,7 @@ export default function ProductsPage(){
                                         { product.name }
                                     </Typography>
                                     <Typography>
-                                        Cena: { product.price }
+                                        Cena: { product.price.toFixed(2) }
                                     </Typography>
                                 </CardContent>
                             </Card>

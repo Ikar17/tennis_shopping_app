@@ -5,6 +5,8 @@ import LayoutE from './components/Layout/Layout';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
+import AdminPage from './pages/AdminPage/AdminPage';
+import UserPage from './pages/UserPage/UserPage';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="register" element={ <SignUpPage /> } />
             <Route path="products/:category" element={ <ProductsPage /> } />
             <Route path="products/search/:name" element={ <ProductsPage /> } />
+            <Route path="admin" element={ <AdminPage /> } />
+            <Route path="user" element={ <UserPage /> } />
         </Route>
       </Routes>
     </BrowserRouter>

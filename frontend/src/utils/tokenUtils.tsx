@@ -41,6 +41,10 @@ export function getRole(): Role{
     return Role.GUEST;
 }
 
+export function removeToken(){
+    localStorage.removeItem("token");
+}
+
 /* example of payload:
 {
     "sub": "przemek12@gmail.com",

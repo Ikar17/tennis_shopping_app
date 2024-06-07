@@ -6,6 +6,20 @@ export enum Role {
 }
 
 export interface Product {
+    id: number,
+    category: Category,
     name: string,
-    price: number
+    price: number,
+    quantity: number,
+    available: boolean,
+    image?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
+
+export interface Category {
+    id: number;
+    name: string;
+}
+
+export const categories = ["rakiety", "buty", "ubrania", "inne"]

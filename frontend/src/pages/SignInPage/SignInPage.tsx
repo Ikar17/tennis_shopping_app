@@ -1,12 +1,20 @@
 import { Alert, Box, Button, Container, Link, Snackbar, TextField, Typography } from "@mui/material"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import signin from "../../api/signin";
 import { useNavigate } from "react-router-dom";
+import { Role } from "../../constants/constants";
+import { getRole, removeToken } from "../../utils/tokenUtils";
 
 export default function SignInPage(){
 
     const [snackbarStatus, changeSnackbarStatus] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const role: Role = getRole();
+        if(role == Role.ADMIN) navigate("/admin");
+        else if(role == Role.USER) navigate("/user");
+    }, []);
 
     const closeSnackbar = () => {
         changeSnackbarStatus(false);
@@ -17,7 +25,12 @@ export default function SignInPage(){
         const data = new FormData(event.currentTarget);
         const status = await signin(data);
         if(status >= 400) changeSnackbarStatus(true);
-        else if(status >= 200) navigate("/"); // to do redirect to account page
+        else if(status >= 200){
+            const role: Role = getRole();
+            if(role == Role.USER) navigate("/user");
+            else if(role == Role.ADMIN) navigate("/admin");
+            else navigate("/")
+        }
     }
 
     return(

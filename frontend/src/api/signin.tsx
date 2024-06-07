@@ -13,6 +13,7 @@ export default async function signin(data: FormData){
         return response.status;
     })
     .catch((error)=>{
+        if(error.response == null) return 500;
         return error.response.status
     })
 }
