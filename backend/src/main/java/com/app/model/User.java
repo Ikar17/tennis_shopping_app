@@ -1,6 +1,7 @@
 package com.app.model;
 
 import com.app.utils.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class User implements UserDetails {
     private Integer id;
     private String firstname;
     private String lastname;
+    @JsonIgnore
     private String password;
     @Column(unique = true)
     private String email;
