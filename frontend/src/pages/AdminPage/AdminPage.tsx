@@ -6,8 +6,9 @@ import { Role } from "../../constants/constants";
 import NewProduct from "./NewProduct";
 import EditProduct from "./EditProduct";
 import Users from "./Users";
+import UserDetails from "../UserPage/UserDetails";
 
-enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER, USERS};
+enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER, USERS, USER};
 
 export default function AdminPage(){
     const navigate = useNavigate();
@@ -76,6 +77,13 @@ export default function AdminPage(){
                         <Button
                             color="info"
                             variant="contained"
+                            onClick={() => changeComponent(Component.USER)}
+                        >
+                            Moje dane
+                        </Button>
+                        <Button
+                            color="info"
+                            variant="contained"
                             onClick={() => logout() }
                         >
                             Wyloguj się
@@ -93,7 +101,7 @@ export default function AdminPage(){
                         <Users />
                     ):
                     (
-                        <div style={{backgroundColor: "red"}}> nooo </div>
+                        <UserDetails />
                     )}
                 </Grid>
             </Grid>
