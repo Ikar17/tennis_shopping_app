@@ -21,7 +21,7 @@ public class Product {
     private Integer quantity;
     private Boolean available;
     @Lob
-    private byte[] image;
+    private String image;
     private Date createdAt;
     private Date updateAt;
 

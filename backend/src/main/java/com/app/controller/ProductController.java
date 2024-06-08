@@ -35,8 +35,9 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> getProductByName(@RequestParam String name){
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+    public ResponseEntity<Page<Product>> getProductByName(@RequestParam String name){
+        int limit = 10;
+        Page<Product> products = productRepository.findByNameContainingIgnoreCase(name,PageRequest.of(0, limit));
         if(products != null){
             return new ResponseEntity<>(products, HttpStatus.OK);
         }else{

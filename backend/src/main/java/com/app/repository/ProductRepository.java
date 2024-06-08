@@ -1,6 +1,7 @@
 package com.app.repository;
 
 import com.app.model.Product;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +11,11 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    List<Product> findByNameContainingIgnoreCase(String name);
+    @Transactional
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    @Transactional
     Page<Product> findByCategory_Name(String categoryName, Pageable pageable);
+    @Transactional
     List<Product> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
 }
