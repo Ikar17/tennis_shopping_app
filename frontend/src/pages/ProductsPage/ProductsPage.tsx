@@ -54,7 +54,7 @@ export default function ProductsPage(){
                                         { product.name }
                                     </Typography>
                                     <Typography>
-                                        Cena: { product.price.toFixed(2) }
+                                        Cena: { product.price ? product.price.toFixed(2) : "" }
                                     </Typography>
                                 </CardContent>
                             </Card>

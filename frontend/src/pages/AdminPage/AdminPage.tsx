@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Role } from "../../constants/constants";
 import NewProduct from "./NewProduct";
 import EditProduct from "./EditProduct";
+import Users from "./Users";
 
-enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER};
+enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER, USERS};
 
 export default function AdminPage(){
     const navigate = useNavigate();
@@ -68,6 +69,13 @@ export default function AdminPage(){
                         <Button
                             color="info"
                             variant="contained"
+                            onClick={() => changeComponent(Component.USERS)}
+                        >
+                            Użytkownicy
+                        </Button>
+                        <Button
+                            color="info"
+                            variant="contained"
                             onClick={() => logout() }
                         >
                             Wyloguj się
@@ -80,6 +88,9 @@ export default function AdminPage(){
                     ):
                     selectedComponent === Component.EDIT_PRODUCT ? (
                         <EditProduct />
+                    ):
+                    selectedComponent === Component.USERS ? (
+                        <Users />
                     ):
                     (
                         <div style={{backgroundColor: "red"}}> nooo </div>
