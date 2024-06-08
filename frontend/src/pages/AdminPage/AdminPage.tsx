@@ -4,6 +4,7 @@ import { getRole, removeToken } from "../../utils/tokenUtils";
 import { useNavigate } from "react-router-dom";
 import { Role } from "../../constants/constants";
 import NewProduct from "./NewProduct";
+import EditProduct from "./EditProduct";
 
 enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER};
 
@@ -76,7 +77,11 @@ export default function AdminPage(){
                 <Grid item xs={12} md={9}>
                     {selectedComponent === Component.NEW_PRODUCT ? (
                         <NewProduct />
-                    ) : (
+                    ):
+                    selectedComponent === Component.EDIT_PRODUCT ? (
+                        <EditProduct />
+                    ):
+                    (
                         <div style={{backgroundColor: "red"}}> nooo </div>
                     )}
                 </Grid>

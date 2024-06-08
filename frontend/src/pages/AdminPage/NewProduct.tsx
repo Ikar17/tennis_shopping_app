@@ -1,6 +1,6 @@
 import { Alert, Box, Button, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
 import { categories } from "../../constants/constants";
-import { addNewProduct } from "../../api/addProduct";
+import { addNewProduct } from "../../api/addAndEditProduct";
 import { useState } from "react";
 
 export default function NewProduct(){
