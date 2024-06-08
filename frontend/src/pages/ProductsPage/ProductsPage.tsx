@@ -1,13 +1,16 @@
-import { Button, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
+import { Alert, Button, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Snackbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductsByCategory, getProductsByName } from "../../api/getProducts";
 import { Product } from "../../constants/constants";
+import { addProductToBasket } from "../../utils/basket";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 export default function ProductsPage(){
 
     const { category, name } = useParams();
     const [products, setProducts] = useState([]);
+    const [snackbarStatus, changeSnackbarStatus] = useState(false);
 
     useEffect(() => {
         getProducts();
@@ -27,6 +30,10 @@ export default function ProductsPage(){
         };
 
         setProducts(response.content);
+    }
+
+    const closeSnackbar = () => {
+        changeSnackbarStatus(false);
     }
 
     return(
@@ -56,12 +63,42 @@ export default function ProductsPage(){
                                     <Typography>
                                         Cena: { product.price ? product.price.toFixed(2) : "" }
                                     </Typography>
+                                    <Button
+                                        onClick={() =>{
+                                            addProductToBasket(product);
+                                            changeSnackbarStatus(true);
+                                        }}
+                                        sx={{
+                                            display: "flex",
+                                            gap: 1
+                                        }}
+                                    >
+                                        <ShoppingBasketIcon />
+                                        <Typography>
+                                            Dodaj do koszyka
+                                        </Typography>
+                                    </Button>
                                 </CardContent>
                             </Card>
                         </CardActionArea>
                     </Grid>
                 ))}
             </Grid>
+
+            <Snackbar
+                open={ snackbarStatus }
+                autoHideDuration={ 6000 }
+                onClose={ closeSnackbar }
+            >
+                <Alert
+                    onClose={ closeSnackbar }
+                    severity= "success"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Dodano produkt do koszyka
+                </Alert>
+            </Snackbar>
 
 
         </Container>

@@ -27,6 +27,8 @@ export interface User {
     firstname: string;
     lastname: string;
     role: string;
+    address: string;
+    number: string;
 }
 
 export const categories = ["rakiety", "buty", "ubrania", "inne"]

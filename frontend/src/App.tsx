@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import UserPage from './pages/UserPage/UserPage';
+import BasketPage from './pages/BasketPage/BasketPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="products/search/:name" element={ <ProductsPage /> } />
             <Route path="admin" element={ <AdminPage /> } />
             <Route path="user" element={ <UserPage /> } />
+            <Route path="basket" element={ <BasketPage /> } />
         </Route>
       </Routes>
     </BrowserRouter>

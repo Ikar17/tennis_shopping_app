@@ -82,16 +82,18 @@ export default function NavbarMobile(){
                         </form>
                     </MenuItem>
                     <MenuItem>
-                        <Button
-                            color="info"
-                            variant="contained"
-                            sx={{
-                                gap: 1
-                            }}
-                        >
-                            <ShoppingBasketIcon />
-                            Koszyk
-                        </Button>
+                        <Link href="/basket">
+                            <Button
+                                color="info"
+                                variant="contained"
+                                sx={{
+                                    gap: 1
+                                }}
+                            >
+                                <ShoppingBasketIcon />
+                                Koszyk
+                            </Button>
+                        </Link>
                     </MenuItem>
                     <MenuItem>
                         <Link href="/login">
