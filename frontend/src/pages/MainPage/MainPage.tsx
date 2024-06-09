@@ -1,9 +1,25 @@
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Paper, Typography } from '@mui/material';
 import baner from "../../assets/baner.jpg";
-import React from 'react';
-import { data } from './temporaryData';
+import React, { useEffect, useState } from 'react';
+import { Product } from '../../constants/constants';
+import { getLastAddedProducts } from '../../api/getProducts';
 
 export default function MainPage(){
+
+    const[products, setProducts] = useState<Product[]>([]);
+
+    const getData = async () => {
+        const limit = 8;
+        const data = await getLastAddedProducts(limit);
+        if(data == null) return;
+        setProducts(data);
+    }
+
+    useEffect(() => {
+        getData();
+    },[])
+
+
     return(
         <Box>
             <Paper  
@@ -32,7 +48,7 @@ export default function MainPage(){
                     Ostatnio dodane produkty
                 </Typography>
                 <Grid container spacing={2}>
-                    { data.map((product, index) => (
+                    { products.map((product: Product, index) => (
                         <Grid item xs={12} sm={6} md={3} key={ index }>
                             <CardActionArea component="a">
                                 <Card>

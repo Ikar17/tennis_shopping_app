@@ -20,3 +20,13 @@ export async function getProductsByName(name: string){
         return null;
     })
 }
+
+export async function getLastAddedProducts(limit: number){
+    return axios.get(`${ BACKEND_URL }/api/product/last/${limit}`)
+    .then((response)=>{
+        return response.data;
+    })
+    .catch((error)=>{
+        return null;
+    })
+}
