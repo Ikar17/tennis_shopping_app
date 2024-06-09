@@ -7,6 +7,7 @@ import NewProduct from "./NewProduct";
 import EditProduct from "./EditProduct";
 import Users from "./Users";
 import UserDetails from "../UserPage/UserDetails";
+import EditOrder from "./EditOrder";
 
 enum Component { NEW_PRODUCT, EDIT_PRODUCT, EDIT_ORDER, USERS, USER};
 
@@ -99,6 +100,9 @@ export default function AdminPage(){
                     ):
                     selectedComponent === Component.USERS ? (
                         <Users />
+                    ):
+                    selectedComponent === Component.EDIT_ORDER ? (
+                        <EditOrder />
                     ):
                     (
                         <UserDetails />

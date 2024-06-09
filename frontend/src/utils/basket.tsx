@@ -26,3 +26,7 @@ export function getAllProducts(): Product[]{
     let products: Product[] = productsJSON ? JSON.parse(productsJSON) : [];
     return products;
 }
+
+export function removeAllItems(){
+    localStorage.removeItem('products');
+}

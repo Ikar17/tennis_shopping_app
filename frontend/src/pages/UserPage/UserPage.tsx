@@ -4,6 +4,7 @@ import { getRole, removeToken } from "../../utils/tokenUtils";
 import { useNavigate } from "react-router-dom";
 import { Role } from "../../constants/constants";
 import UserDetails from "./UserDetails";
+import UserOrders from "./UserOrders";
 
 enum Component { ORDERS, USER};
 
@@ -70,7 +71,7 @@ export default function UserPage(){
                         <UserDetails />
                     ):
                     selectedComponent === Component.ORDERS ? (
-                        <div />
+                        <UserOrders />
                     ):
                     (
                         <div />

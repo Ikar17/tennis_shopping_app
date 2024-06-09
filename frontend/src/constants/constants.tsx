@@ -31,4 +31,20 @@ export interface User {
     number: string;
 }
 
+export interface ProductOrder{
+    id: number;
+    name: string;
+    price: number; 
+}
+
+export interface OrderDetails {
+    id: number;
+    createdAt: string; 
+    orderStatus: string;
+    products: ProductOrder[];
+    user: User;
+}
+
 export const categories = ["rakiety", "buty", "ubrania", "inne"]
+
+export const orderStatus = ["OPLACONE", "UTWORZONE", "WYSLANE", "ANULOWANE"]

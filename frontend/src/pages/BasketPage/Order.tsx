@@ -1,8 +1,10 @@
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { getToken } from "../../utils/tokenUtils"
 import { useEffect, useState } from "react";
-import { User } from "../../constants/constants";
+import { Product, User } from "../../constants/constants";
 import { getUserDetails } from "../../api/user";
+import { createOrder } from "../../api/order";
+import { removeAllItems } from "../../utils/basket";
 
 export default function Order(props:any){
     const token = getToken();
@@ -30,6 +32,15 @@ export default function Order(props:any){
             address: data.address,
             number: data.number
         })
+    }
+
+    const handleSubmit = async () => {
+        const productsId = products.map((product: Product) => product.id);
+        const data = await createOrder(productsId);
+        if(data == null) return;
+
+        props.setOrderNumber(data);
+        props.setSummary();
     }
 
     if(token == null)
@@ -103,6 +114,7 @@ export default function Order(props:any){
                     <Button
                         color="info"
                         variant="contained"
+                        onClick={()=>handleSubmit()}
                     >
                         Złóż zamówienie
                     </Button>

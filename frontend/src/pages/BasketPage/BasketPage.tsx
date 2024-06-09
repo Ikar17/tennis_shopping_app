@@ -1,14 +1,17 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Product } from "../../constants/constants";
-import { getAllProducts, removeProductFromBasket } from "../../utils/basket";
+import { getAllProducts, removeAllItems, removeProductFromBasket } from "../../utils/basket";
 import ClearIcon from '@mui/icons-material/Clear';
 import Order from "./Order";
+import Summary from "./Summary";
 
 export default function BasketPage(){
 
     const [products, setProducts] = useState<Product[]>([]);
     const [cost, setCost] = useState(0);
+    const [summary, setSummary] = useState(false);
+    const [orderNumber, setOrderNumber] = useState(-1);
 
     useEffect(() => {
         const data = getAllProducts();
@@ -25,6 +28,12 @@ export default function BasketPage(){
 
     const countCost = (listProducts: Product[]) => {
         return listProducts.reduce((total, product) => total + product.price, 0);
+    }
+
+    const goToSummary = () => {
+        setSummary(true);
+        removeAllItems();
+        setProducts([]);
     }
 
     return(
@@ -85,7 +94,24 @@ export default function BasketPage(){
                 </Box>
             ))}
 
-            <Order cost={cost} products={products}/>
+            {!summary ? 
+                (
+                    products.length == 0 ?
+                        <Typography
+                            sx={{
+                                width: "100%",
+                                textAlign: "center",
+                                marginTop: 10
+                            }}
+                        >
+                            Pusty koszyk
+                        </Typography>
+                    :
+                    <Order cost={cost} products={products} setSummary={goToSummary} setOrderNumber={setOrderNumber} />
+                )
+            :
+                <Summary orderNumber={orderNumber} />
+            }
 
         </Container>
     )
