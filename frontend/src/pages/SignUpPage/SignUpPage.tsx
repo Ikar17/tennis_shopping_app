@@ -1,16 +1,27 @@
-import { Box, Button, Container, Link, TextField, Typography } from "@mui/material"
-import React from "react"
+import { Alert, Box, Button, Container, Link, Snackbar, TextField, Typography } from "@mui/material"
+import React, { useState } from "react"
+import signup from "../../api/signup";
 
 export default function SignUpPage(){
 
-    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+    const [snackbarStatus, changeSnackbarStatus] = useState(false);
+    const [status, setStatus] = useState(true);
+
+    const closeSnackbar = () => {
+        changeSnackbarStatus(false);
+    }
+
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        //to do send request to backend
+        const status = await signup(data);
+        if(status >= 400){
+            setStatus(false);
+            changeSnackbarStatus(true);
+        }else{
+            setStatus(true);
+            changeSnackbarStatus(true);
+        } 
     }
 
     return(
@@ -33,9 +44,9 @@ export default function SignUpPage(){
                     <TextField
                         required
                         fullWidth
-                        id="firstName"
+                        id="firstname"
                         label="Imię"
-                        name="firstName"
+                        name="firstname"
                         autoComplete="given-name"
                         autoFocus
                         margin="normal"
@@ -43,9 +54,9 @@ export default function SignUpPage(){
                     <TextField
                         required
                         fullWidth
-                        id="lastName"
+                        id="lastname"
                         label="Nazwisko"
-                        name="lastName"
+                        name="lastname"
                         autoComplete="family-name"
                         margin="normal"
                     />
@@ -65,6 +76,7 @@ export default function SignUpPage(){
                         id="password"
                         label="Hasło"
                         name="password"
+                        type="password"
                         autoComplete="password"
                     />
                     <Button
@@ -80,6 +92,22 @@ export default function SignUpPage(){
                     Masz konto? Zaloguj się
                 </Link>
             </Box>
+
+            <Snackbar
+                open={ snackbarStatus }
+                autoHideDuration={ 6000 }
+                onClose={ closeSnackbar }
+            >
+                <Alert
+                    onClose={ closeSnackbar }
+                    severity= { status ? "success" : "error"}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    { status ? "Zarejestrowano się. Zaloguj się" : "Błąd rejestracji. Spróbuj później lub innym mailem"}
+                </Alert>
+            </Snackbar>
+
         </Container>  
     )
 }
