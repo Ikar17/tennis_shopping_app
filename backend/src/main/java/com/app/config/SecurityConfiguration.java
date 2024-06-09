@@ -41,6 +41,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PATCH, "/api/product/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/user/promote").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/user/all").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/order").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/order/all").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

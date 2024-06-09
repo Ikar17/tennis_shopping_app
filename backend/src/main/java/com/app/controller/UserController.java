@@ -69,6 +69,8 @@ public class UserController {
 
             if(updatedUser.getFirstname() != null) user.setFirstname(updatedUser.getFirstname());
             if(updatedUser.getLastname() != null) user.setLastname(updatedUser.getLastname());
+            if(updatedUser.getAddress() != null) user.setAddress(updatedUser.getAddress());
+            if(updatedUser.getNumber() != null) user.setNumber(updatedUser.getNumber());
 
             userRepository.save(user);
             return new ResponseEntity<>(HttpStatus.OK);

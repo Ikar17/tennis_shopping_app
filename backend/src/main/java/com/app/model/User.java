@@ -26,6 +26,8 @@ public class User implements UserDetails {
     private Integer id;
     private String firstname;
     private String lastname;
+    private String address;
+    private String number;
     @JsonIgnore
     private String password;
     @Column(unique = true)
