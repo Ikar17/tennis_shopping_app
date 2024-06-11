@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, MenuItem, Pagination, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { Product, categories } from "../../constants/constants";
 import { useEffect, useState, useCallback } from "react";
 import { getProductsByCategory } from "../../api/getProducts";
@@ -10,6 +10,8 @@ export default function EditProduct(){
     const [products, setProducts] = useState<Product[]>([]);
     const [choosenProduct, setProduct] = useState<Product | null>(null);
     const [changeFlag, setChangeFlag] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pagesCount, setPagesCount] = useState(1);
 
     const setCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
         if(event.currentTarget !== null && event.currentTarget.value !== null && categories.indexOf(event.currentTarget.value) !== -1){
@@ -19,14 +21,16 @@ export default function EditProduct(){
     }
 
     const getData = async () => {
-        const data = await getProductsByCategory(choosenCategory);
-        if(data !== null && data.content !== null) setProducts(data.content);
+        const data = await getProductsByCategory(choosenCategory, pageNumber-1);
+        if(data !== null && data.content !== null){
+            setProducts(data.content);
+            setPagesCount(data.totalPages);
+        } 
     }
 
     const editProduct = async (index: number) => {
         const updatedProduct = products[index];
         setProduct(updatedProduct);
-        console.log(updatedProduct);
     };
 
     const approveChange = () => {
@@ -35,7 +39,11 @@ export default function EditProduct(){
 
     useEffect(() => {
         getData();
-    },[choosenCategory, changeFlag])
+    },[choosenCategory, changeFlag, pageNumber])
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPageNumber(value);
+    };
 
     return(
         <div>
@@ -79,9 +87,11 @@ export default function EditProduct(){
                     {products.map((product: Product, index) =>(
                         <Grid item xs={12} sm={6} md={3} key={ index }>
                             <CardActionArea component="a">
-                                <Card>
+                                <Card
+                                    sx={{minHeight: 400}}
+                                >
                                     <CardMedia
-                                        sx={{ height: 200 }}
+                                        sx={{ height: 200, backgroundSize: "contain" }}
                                         image= { product.image }
                                     />
                                     <CardContent>
@@ -105,6 +115,18 @@ export default function EditProduct(){
                         </Grid>
                     ))}
                 </Grid>
+                <Box
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: 3
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Pagination count={pagesCount} page={pageNumber} onChange={handleChange} />
+                    </Stack>
+                </Box>
             </Box>
         </div>
     )

@@ -21,11 +21,15 @@ export async function createOrder(productsId: number[]){
     })
 }
 
-export async function getMyOrders(){
+export async function getMyOrders(page:number){
     const token = getToken();
 
     return axios.get(`${ BACKEND_URL }/api/order`,
     {
+        params:{
+            page: page,
+            size: 4
+        },
         headers:{
             "Authorization" : "Bearer " + token
         }
@@ -38,11 +42,15 @@ export async function getMyOrders(){
     })
 }
 
-export async function getAllOrders(){
+export async function getAllOrders(page: number){
     const token = getToken();
 
     return axios.get(`${ BACKEND_URL }/api/order/all`,
     {
+        params:{
+            page: page,
+            size: 4
+        },
         headers:{
             "Authorization" : "Bearer " + token
         }

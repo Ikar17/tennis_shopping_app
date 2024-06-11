@@ -51,9 +51,13 @@ export default function MainPage(){
                     { products.map((product: Product, index) => (
                         <Grid item xs={12} sm={6} md={3} key={ index }>
                             <CardActionArea component="a">
-                                <Card>
+                                <Card
+                                    sx={{
+                                        minHeight: 420
+                                    }}
+                                >
                                     <CardMedia 
-                                        sx={{ height: 200 }}
+                                        sx={{ height: 260, backgroundSize: "contain"}}
                                         image={ product.image }
                                         title={ product.name }
                                     >
@@ -64,7 +68,7 @@ export default function MainPage(){
                                             { product.name }
                                         </Typography>
                                         <Typography>
-                                            Cena: { product.price }
+                                            Cena: { product.price ? product.price.toFixed(2) + " zł" : ""}
                                         </Typography>
                                     </CardContent>
                                 </Card>

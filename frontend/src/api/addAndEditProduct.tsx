@@ -55,13 +55,15 @@ export async function editProduct(id: number, data: FormData){
         quantity: data.get("quantity")
     }
 
-    if(data.get("image") != null && data.get("image") !== ""){
-        const imageBase64 = await convertToBase64(data.get("image") as File);
+    const file:File = data.get("image") as File;
+
+    if(file != null && file.name !== ""){
+        const imageBase64 = await convertToBase64(file);
         product.image = imageBase64;
     }else{
         product.image = null;
     }
-    
+
     return axios.patch(
         `${ BACKEND_URL }/api/product`, product, {
             params: { id: id },

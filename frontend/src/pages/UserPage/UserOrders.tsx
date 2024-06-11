@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Stack, Typography } from "@mui/material";
 import { getMyOrders } from "../../api/order";
 import { useEffect, useState } from "react";
 import { OrderDetails } from "../../constants/constants";
@@ -6,16 +6,19 @@ import { OrderDetails } from "../../constants/constants";
 export default function UserOrders(){
 
     const[orders, setOrders] = useState<OrderDetails[]>([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pagesCount, setPagesCount] = useState(1);
 
     useEffect(() => {
         getData();
-    },[])
+    },[pageNumber])
 
     const getData = async () => {
-        const data = await getMyOrders();
+        const data = await getMyOrders(pageNumber-1);
         if(data == null || data.content == null) return;
         const orderDetails: OrderDetails[] = data.content;
         setOrders(orderDetails);
+        setPagesCount(data.totalPages);
     }
 
     const formatDate = (dateString: string): string  => {
@@ -30,6 +33,9 @@ export default function UserOrders(){
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
 
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPageNumber(value);
+    };
 
     return(
         <Box
@@ -84,6 +90,19 @@ export default function UserOrders(){
                     </Typography>
                 </Box>
             ))}
+
+                <Box
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: 3
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Pagination count={pagesCount} page={pageNumber} onChange={handleChange} />
+                    </Stack>
+                </Box>
 
         </Box>
     )

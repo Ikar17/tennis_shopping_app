@@ -1,4 +1,4 @@
-import { Alert, Button, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Pagination, Snackbar, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductsByCategory, getProductsByName } from "../../api/getProducts";
@@ -11,30 +11,36 @@ export default function ProductsPage(){
     const { category, name } = useParams();
     const [products, setProducts] = useState([]);
     const [snackbarStatus, changeSnackbarStatus] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pagesCount, setPagesCount] = useState(1);
 
     useEffect(() => {
         getProducts();
-    }, []);
+    }, [pageNumber]);
 
     const getProducts = async() => {
         if(category == undefined && name == undefined) return;
 
-        console.log(category, name);
-
         let response = null;
-        if(category !== undefined) response = await getProductsByCategory(category);
-        else if(name !== undefined) response = await getProductsByName(name);
+        if(category !== undefined) response = await getProductsByCategory(category, pageNumber-1);
+        else if(name !== undefined) response = await getProductsByName(name, pageNumber-1);
         if(response == null){
             setProducts([]);
             return;
         };
 
-        setProducts(response.content);
+        const availableProducts = response.content.filter((product: Product) => product.available == true);
+        setProducts(availableProducts);
+        setPagesCount(response.totalPages);
     }
 
     const closeSnackbar = () => {
         changeSnackbarStatus(false);
     }
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPageNumber(value);
+    };
 
     return(
         <Container 
@@ -48,9 +54,13 @@ export default function ProductsPage(){
                 { products.map((product: Product, index) => (
                     <Grid item xs={12} sm={6} md={3} key={ index }>
                         <CardActionArea component="a">
-                            <Card>
+                            <Card
+                                sx={{
+                                    minHeight: 420
+                                }}
+                            >
                                 <CardMedia
-                                    sx={{ height: 200 }}
+                                    sx={{ height: 260, backgroundSize: "contain"}}
                                     title={ product.name }
                                     image= { product.image }
                                 >
@@ -61,7 +71,7 @@ export default function ProductsPage(){
                                         { product.name }
                                     </Typography>
                                     <Typography>
-                                        Cena: { product.price ? product.price.toFixed(2) : "" }
+                                        Cena: { product.price ? product.price.toFixed(2) + " zł" : "" }
                                     </Typography>
                                     <Button
                                         onClick={() =>{
@@ -84,7 +94,18 @@ export default function ProductsPage(){
                     </Grid>
                 ))}
             </Grid>
-
+            <Box
+                sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: 3
+                }}
+            >
+                <Stack spacing={2}>
+                    <Pagination count={pagesCount} page={pageNumber} onChange={handleChange} />
+                </Stack>
+            </Box>
             <Snackbar
                 open={ snackbarStatus }
                 autoHideDuration={ 6000 }

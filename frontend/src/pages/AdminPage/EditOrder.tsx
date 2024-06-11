@@ -1,4 +1,4 @@
-import { Alert, Box, Button, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, MenuItem, Pagination, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { OrderDetails, orderStatus } from "../../constants/constants";
 import { getAllOrders, updateOrder } from "../../api/order";
@@ -8,15 +8,18 @@ export default function EditOrder(){
     const [orders, setOrders] = useState<OrderDetails[]>([]);
     const [snackbarStatus, changeSnackbarStatus] = useState(false);
     const [status, setStatus] = useState(true);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pagesCount, setPagesCount] = useState(1);
 
     useEffect(() => {
         getData();
-    },[])
+    },[pageNumber])
 
     const getData = async () => {
-        const data = await getAllOrders();
+        const data = await getAllOrders(pageNumber-1);
         if(data == null || data.content == null) return;
         setOrders(data.content);
+        setPagesCount(data.totalPages);
     }
 
     const handleChangeInput = (index: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,6 +63,10 @@ export default function EditOrder(){
     
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPageNumber(value);
+    };
 
     return(
         <Box
@@ -152,6 +159,19 @@ export default function EditOrder(){
                     </Box>
                 </Box>
             ))}
+
+                <Box
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: 3
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Pagination count={pagesCount} page={pageNumber} onChange={handleChange} />
+                    </Stack>
+                </Box>
 
             <Snackbar
                 open={ snackbarStatus }

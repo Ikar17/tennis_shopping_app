@@ -40,7 +40,7 @@ export default function EditProductForm(props:any){
                 price: product && product.price ? product.price.toFixed(2) : "",
                 quantity: product && product.quantity ? product.quantity : "",
                 available: product && product.available ? product.available : "",
-                image: product && product.image ? product.image : ""
+                image: ""
             }
         )
     },[props.product])
