@@ -1,5 +1,5 @@
 package com.app.utils;
 
 public enum OrderStatus {
-    OPLACONE, UTWORZONE, WYSLANE
+    OPLACONE, UTWORZONE, WYSLANE, ANULOWANE
 }

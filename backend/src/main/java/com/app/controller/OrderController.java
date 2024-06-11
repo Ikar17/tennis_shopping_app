@@ -36,7 +36,7 @@ public class OrderController {
     private OrderProductRepository orderProductRepository;
 
     @PostMapping
-    public ResponseEntity<String> createNewOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
+    public ResponseEntity<Integer> createNewOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
@@ -62,8 +62,8 @@ public class OrderController {
                 }
             }
 
-            orderRepository.save(orderDetails);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            OrderDetails savedOrder = orderRepository.save(orderDetails);
+            return new ResponseEntity<>(savedOrder.getId(), HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -86,13 +86,11 @@ public class OrderController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<OrderDetails> getAllOrders(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<OrderDetails>> getAllOrders(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "10") int size){
         try{
             Page<OrderDetails> orders = orderRepository.findAll(PageRequest.of(page, size));
-            OrderDetails exam = orders.getContent().get(0);
-
-            return new ResponseEntity<>(exam, HttpStatus.OK);
+            return new ResponseEntity<>(orders, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

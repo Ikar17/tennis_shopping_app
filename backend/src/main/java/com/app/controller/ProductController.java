@@ -96,7 +96,7 @@ public class ProductController {
         if(productDTO.getPrice() != null) product.setPrice(productDTO.getPrice());
         if(productDTO.getName() != null) product.setName(productDTO.getName());
         if(productDTO.getQuantity() != null) product.setQuantity(productDTO.getQuantity());
-        if(productDTO.getImage() != null) product.setImage(productDTO.getImage());
+        if(productDTO.getImage() != null && !productDTO.getImage().equals("")) product.setImage(productDTO.getImage());
         if(productDTO.getCategory() != null){
             Optional<Category> category = categoryRepository.findByNameIgnoreCase(productDTO.getCategory());
             if(category.isPresent()) product.setCategory(category.get());
