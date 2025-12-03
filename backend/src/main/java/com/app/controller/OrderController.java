@@ -61,7 +61,6 @@ public class OrderController {
                     orderDetails.getProducts().add(orderProduct);
                 }
             }
-            //test
             OrderDetails savedOrder = orderRepository.save(orderDetails);
             return new ResponseEntity<>(savedOrder.getId(), HttpStatus.CREATED);
         }catch(Exception e){
