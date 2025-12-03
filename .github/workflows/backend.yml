@@ -16,29 +16,25 @@ on:
 
 jobs:
  build-backend:
-    runs-on: ubuntu-latest
-
-    #services uruchamia kontenery 
-    services:
-      # Nazwa tego serwisu (tutaj: 'postgres') będzie używana jako hostname
-      postgres:
-        image: postgres:14-alpine 
-        ports:
-          - 5432:5432 
-        env:
-          POSTGRES_DB: tennisapp     
-          POSTGRES_USER: postgres  
-          POSTGRES_PASSWORD: postgres
-          
-    steps:
-    - uses: actions/checkout@v4
+ 
+  runs-on: ubuntu-latest
+ 
+  container: maven:3.9-jdk-17-slim
     
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+    #services uruchamia kontenery 
+  services:
+      # Nazwa tego serwisu (tutaj: 'postgres') będzie używana jako hostname
+   postgres:
+    image: postgres:14-alpine 
+    ports:
+     - 5432:5432 
+    env:
+     POSTGRES_DB: tennisapp     
+     POSTGRES_USER: postgres  
+     POSTGRES_PASSWORD: postgres
+          
+  steps:
+    - uses: actions/checkout@v4
 
     - name: Ustawienie zmiennych środowiskowych DB
       run: |
@@ -46,9 +42,25 @@ jobs:
          echo "SPRING_DATASOURCE_USERNAME=postgres" >> $GITHUB_ENV
          echo "SPRING_DATASOURCE_PASSWORD=postgres" >> $GITHUB_ENV
          echo "SPRING_DATASOURCE_MODE=create-drop" >> $GITHUB_ENV
-          
+         
+    - name: Czekaj na gotowość PostgreSQL
+      # Używamy netcat (nc) do sprawdzenia, czy port 5432 na hoście 'postgres' jest otwarty
+      run: |
+        echo "Czekam na bazę danych. Host: postgres, Port: 5432"
+        # Pętla próbuje połączyć się 20 razy, czekając 3 sekundy pomiędzy próbami (max 60s)
+        for i in {1..20}; do
+          if nc -z -w 1 postgres 5432; then
+            echo "PostgreSQL jest gotowy!"
+            exit 0
+          fi
+          echo "Próba $i/20. Czekam 3 sekundy..."
+          sleep 3
+        done
+        echo "Baza danych nie jest dostępna w czasie."
+        exit 1  
+        
     - name: Build backend with Maven
-      run: mvn -B package
+      run: mvn clean install -DskipTests
       working-directory: ./backend # Runner przejdzie do folderu 'backend'
       env:
           SPRING_DATASOURCE_MODE: ${{ env.SPRING_DATASOURCE_MODE }}
