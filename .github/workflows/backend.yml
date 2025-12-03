@@ -53,21 +53,21 @@ jobs:
          echo "SPRING_DATASOURCE_PASSWORD=postgres" >> $GITHUB_ENV
          echo "SPRING_DATASOURCE_MODE=create-drop" >> $GITHUB_ENV
          
-    - name: Czekaj na gotowość PostgreSQL
-      # Używamy netcat (nc) do sprawdzenia, czy port 5432 na hoście 'postgres' jest otwarty
-      run: |
-        echo "Czekam na bazę danych. Host: postgres, Port: 5432"
-        # Pętla próbuje połączyć się 20 razy, czekając 3 sekundy pomiędzy próbami (max 60s)
-        for i in {1..20}; do
-          if nc -z -w 1 postgres 5432; then
-            echo "PostgreSQL jest gotowy!"
-            exit 0
-          fi
-          echo "Próba $i/20. Czekam 3 sekundy..."
-          sleep 3
-        done
-        echo "Baza danych nie jest dostępna w czasie."
-        exit 1  
+#    - name: Czekaj na gotowość PostgreSQL
+#      # Używamy netcat (nc) do sprawdzenia, czy port 5432 na hoście 'postgres' jest otwarty
+#      run: |
+#        echo "Czekam na bazę danych. Host: postgres, Port: 5432"
+#        # Pętla próbuje połączyć się 20 razy, czekając 3 sekundy pomiędzy próbami (max 60s)
+#        for i in {1..20}; do
+#          if nc -z -w 1 postgres 5432; then
+#            echo "PostgreSQL jest gotowy!"
+#            exit 0
+#          fi
+#          echo "Próba $i/20. Czekam 3 sekundy..."
+#          sleep 3
+#        done
+#        echo "Baza danych nie jest dostępna w czasie."
+#        exit 1
         
     - name: Build backend with Maven
       run: mvn clean install -DskipTests
