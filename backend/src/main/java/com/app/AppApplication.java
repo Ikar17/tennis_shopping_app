@@ -12,6 +12,7 @@ public class AppApplication {
 
 		// Ustawienie wszystkich załadowanych zmiennych jako właściwości systemowe
 		dotenv.entries().forEach(entry -> {
+			System.out.println(entry)
 			System.setProperty(entry.getKey(), entry.getValue());
 		});
 
