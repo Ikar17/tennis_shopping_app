@@ -17,6 +17,19 @@ on:
 jobs:
  build-backend:
     runs-on: ubuntu-latest
+
+    #services uruchamia kontenery 
+    services:
+      # Nazwa tego serwisu (tutaj: 'postgres') będzie używana jako hostname
+      postgres:
+        image: postgres:14-alpine 
+        ports:
+          - 5432:5432 
+        env:
+          POSTGRES_DB: tennisapp     
+          POSTGRES_USER: postgres  
+          POSTGRES_PASSWORD: postgres
+          
     steps:
     - uses: actions/checkout@v4
     
@@ -26,7 +39,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-        
+
+    - name: Ustawienie zmiennych środowiskowych DB
+      run: |
+         echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/tennisapp" >> $GITHUB_ENV
+         echo "SPRING_DATASOURCE_USERNAME=postgres" >> $GITHUB_ENV
+         echo "SPRING_DATASOURCE_PASSWORD=postgres" >> $GITHUB_ENV
+          
     - name: Build backend with Maven
       run: mvn -B package
       working-directory: ./backend # Runner przejdzie do folderu 'backend'
+      env:
+          # Nadpisanie ddl-auto, aby wymusić ponowne tworzenie schematu
+          SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop 
+          # Użycie zmiennych środowiskowych ustawionych powyżej
+          SPRING_DATASOURCE_URL: ${{ env.SPRING_DATASOURCE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ env.SPRING_DATASOURCE_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ env.SPRING_DATASOURCE_PASSWORD }}
